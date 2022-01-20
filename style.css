@@ -1,0 +1,7 @@
+#searchedCardList > li {
+    transition: background-color .1s;
+}
+
+#searchedCardList > li:hover {
+   background-color: #D3D3D3;
+}

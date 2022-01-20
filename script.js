@@ -55,7 +55,7 @@ function showCard(cardList) {
             cardInfo +=
             `
             <h2>${card.name}</h2>
-            <h3>${card.type}</h3>
+            <h5">${card.type}</h5>
             <p>${card.desc}</p>
             <p>ATK / ${card.atk}  DEF / ${card.def}</p>
             `;
