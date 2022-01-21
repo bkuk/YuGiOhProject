@@ -19,7 +19,7 @@ searchBar.addEventListener('keyup', (search) => {
     for (let i = 0; i < filteredNames.length; i++) {
         searchedNameOut +=
         `
-        <li id="${filteredNames[i].name}" onClick="showCard(this.id)">${filteredNames[i].name}</li>
+        <li id="${filteredNames[i].id}" onClick="showCard(this.id)">${filteredNames[i].name}</li>
         `;
     }
     
@@ -43,21 +43,27 @@ async function getAPI(URL) {
     cardList = await res.json();
 
     console.log(cardList);
-    showCard("Elemental HERO Flame Wingman");
+    showCard("35809262");
 }
 
 function showCard(clickedID) {
     let cardInfo = ``;
     // output card information by searching for it using for loop
     for (let card of cardList.data) {
-        if (card.name == clickedID) {
+        if (card.id == clickedID) {
             cardInfo +=
             `
             <h2>${card.name}</h2>
             <h5">${card.type}</h5>
             <p>${card.desc}</p>
-            <p>ATK / ${card.atk}  DEF / ${card.def}</p>
             `;
+            console.log(card.id);
+            if (card.type !== "Spell Card" && card.type !== "Trap Card") {
+                cardInfo +=
+                `
+                <p>ATK / ${card.atk}  DEF / ${card.def}</p>
+                `;
+            }
             document.getElementById("cardInfo").innerHTML = cardInfo;
             searchedNameOut = ``;
             searchedCardList.style.height = "0px"
