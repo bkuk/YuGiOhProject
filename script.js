@@ -7,7 +7,6 @@ const searchBar = document.getElementById('searchBar');
 let searchedCardList = document.getElementById("searchedCardList");
 let cardList = [];
 
-
 // console.log(searchBar);
 // EventListner to track key inputs
 searchBar.addEventListener('keyup', (search) => {
@@ -20,10 +19,10 @@ searchBar.addEventListener('keyup', (search) => {
     for (let i = 0; i < filteredNames.length; i++) {
         searchedNameOut +=
         `
-        <li>${filteredNames[i].name}</li>
+        <li id="${filteredNames[i].name}" onClick="showCard(this.id)">${filteredNames[i].name}</li>
         `;
     }
-
+    
     // style search results as user types
     searchedCardList.style.height = "200px";
     searchedCardList.style.overflowX = "hidden";
@@ -44,14 +43,14 @@ async function getAPI(URL) {
     cardList = await res.json();
 
     console.log(cardList);
-    showCard(cardList);
+    showCard("Elemental HERO Flame Wingman");
 }
 
-function showCard(cardList) {
+function showCard(clickedID) {
     let cardInfo = ``;
     // output card information by searching for it using for loop
     for (let card of cardList.data) {
-        if (card.name == "Elemental HERO Flame Wingman") {
+        if (card.name == clickedID) {
             cardInfo +=
             `
             <h2>${card.name}</h2>
@@ -60,6 +59,8 @@ function showCard(cardList) {
             <p>ATK / ${card.atk}  DEF / ${card.def}</p>
             `;
             document.getElementById("cardInfo").innerHTML = cardInfo;
+            searchedNameOut = ``;
+            searchedCardList.style.height = "0px"
             break;
         }
     }
