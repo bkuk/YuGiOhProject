@@ -21,6 +21,9 @@ searchBar.addEventListener('keyup', (search) => {
         `
         <li id="${filteredNames[i].id}" onClick="showCard(this.id)">${filteredNames[i].name}</li>
         `;
+        if (i > 30) {
+            break;
+        }
     }
     
     // style search results as user types
@@ -37,7 +40,7 @@ searchBar.addEventListener('keyup', (search) => {
     searchedCardList.innerHTML = searchedNameOut;
 });
 
-// retrieve api information as json object
+// retrieve api information as json object using fetch
 async function getAPI(URL) {
     let res = await fetch(URL);
     cardList = await res.json();
@@ -48,7 +51,7 @@ async function getAPI(URL) {
 
 function showCard(clickedID) {
     let cardInfo = ``;
-    // output card information by searching for it using for loop
+    // output card information by searching for it using for of loop
     for (let card of cardList.data) {
         if (card.id == clickedID) {
             cardInfo +=
@@ -57,13 +60,13 @@ function showCard(clickedID) {
             <h5">${card.type}</h5>
             <p>${card.desc}</p>
             `;
-            console.log(card.id);
             if (card.type !== "Spell Card" && card.type !== "Trap Card") {
                 cardInfo +=
                 `
                 <p>ATK / ${card.atk}  DEF / ${card.def}</p>
                 `;
             }
+            document.getElementById("cardImage").src = card.card_images[0].image_url
             document.getElementById("cardInfo").innerHTML = cardInfo;
             searchedNameOut = ``;
             searchedCardList.style.height = "0px"
