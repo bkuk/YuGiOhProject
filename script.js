@@ -25,12 +25,10 @@ searchBar.addEventListener('keyup', (search) => {
             break;
         }
     }
-    
     // style search results as user types
     searchedCardList.style.height = "200px";
     searchedCardList.style.overflowX = "hidden";
     searchedCardList.style.overflowY = "auto";
-
     // clear search results if search is empty
     if(searchString.length == 0) {
         searchedNameOut = ``;
@@ -45,8 +43,8 @@ async function getAPI(URL) {
     let res = await fetch(URL);
     cardList = await res.json();
 
-    console.log(cardList);
-    showCard("35809262");
+    // console.log(cardList);
+    showCard("89943723");
 }
 
 function showCard(clickedID) {
@@ -66,7 +64,16 @@ function showCard(clickedID) {
                 <p>ATK / ${card.atk}  DEF / ${card.def}</p>
                 `;
             }
-            document.getElementById("cardImage").src = card.card_images[0].image_url
+
+            // output for card images
+            // document.getElementById("cardImage").src = card.card_images[0].image_url
+            // for loop to store and retrieve all of the possible card arts
+            // for (let i = 0; i < card.card_images.length; i++) {
+            //     localStorage.setItem(`${card.name}${i}`, card.card_images[i].image_url);
+            // }
+
+            console.log(card);
+            // document.getElementById("cardImage").src = localStorage.getItem(`${card.name}${0}`);
             document.getElementById("cardInfo").innerHTML = cardInfo;
             searchedNameOut = ``;
             searchedCardList.style.height = "0px"
@@ -74,6 +81,7 @@ function showCard(clickedID) {
         }
     }
 }
+
 
 // run the function
 getAPI(URL);
