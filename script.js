@@ -5,6 +5,7 @@
 const URL = "cardinfo.php";
 const searchBar = document.getElementById('searchBar');
 let searchedCardList = document.getElementById("searchedCardList");
+let cardImage = document.getElementById("cardImage")
 let cardList = [];
 
 // console.log(searchBar);
@@ -66,21 +67,51 @@ function showCard(clickedID) {
             }
 
             // output for card images
-            // document.getElementById("cardImage").src = card.card_images[0].image_url
+
             // for loop to store and retrieve all of the possible card arts
+
             // for (let i = 0; i < card.card_images.length; i++) {
-            //     localStorage.setItem(`${card.name}${i}`, card.card_images[i].image_url);
+                //cardImage.src = card.card_images[0].image_url
+                //storeImage(cardImage);
             // }
 
+
+            storeImage(card.card_images[0].image_url);
+            // cardImage.src = localStorage.getItem(`Example Card`);
+
             console.log(card);
-            // document.getElementById("cardImage").src = localStorage.getItem(`${card.name}${0}`);
+            document.getElementById("cardImage").src = localStorage.getItem(`Example Card`);
             document.getElementById("cardInfo").innerHTML = cardInfo;
             searchedNameOut = ``;
-            searchedCardList.style.height = "0px"
+            searchedCardList.style.height = "0px";
             break;
         }
     }
 }
+
+async function storeImage(cardURL) {
+    let blob = await fetch(cardURL).then(r => r.blob());
+    let dataURL = await new Promise(resolve => {
+        let reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+    });
+    console.log(dataURL);
+    localStorage.setItem(`Example Card`, dataURL);
+}
+
+
+    // let canvas = document.createElement("canvas");
+    // let context = canvas.getContext("2d");
+
+    // canvas.width = cardImage.width;
+    // canvas.height = cardImage.height;
+
+    // context.drawImage(cardImage, 0, 0);
+
+    // let dataURL = canvas.toDataURL("image/jpg");
+    // console.log(dataURL);
+    // localStorage.setItem(`Example Card`, dataURL);
 
 
 // run the function
