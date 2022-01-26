@@ -62,12 +62,13 @@ async function storeImage(cardURL, cardName, i) {
 function showCard(clickedID) {
     let cardInfo = ``;
     let cardImageOut = ``;
+    let extra = document.getElementById("extra");
     let getAltArt;
     // output card information by searching for it using for of loop
     for (let card of cardList.data) {
         if (card.id == clickedID) {
             cardInfo +=
-            `
+                `
             <h2>${card.name}</h2>
             <h5">${card.type}</h5>
             <p>${card.desc}</p>
@@ -75,7 +76,7 @@ function showCard(clickedID) {
             // if statement to check if card type is spell or trap
             if (card.type !== "Spell Card" && card.type !== "Trap Card") {
                 cardInfo +=
-                `
+                    `
                 <p>ATK / ${card.atk}  DEF / ${card.def}</p>
                 `;
             }
@@ -89,23 +90,33 @@ function showCard(clickedID) {
             }
             console.log(card.card_images.length);
             // Output Card Image
-            // document.getElementsById("extra").remove();                         // clear alternate card art HTML elements
-
-            cardImage.src = localStorage.getItem(`${card.name}${0}`);           // start new if new card is clicked on
+            cardImage.src = localStorage.getItem(`${card.name}${0}`); // start new if new card is clicked on
             if (card.card_images.length > 0) {
+                if (extra) {
+                    // clear extra card art if they exist
+                    for (let k = 0; k < card.card_images.length; k++) {
+                        extra.remove();
+                    }
+                }
                 for (let j = 1; j < card.card_images.length; j++) {
                     getAltArt = localStorage.getItem(`${card.name}${j}`);
                     cardImageOut +=
-                    `
-                    <div class="carousel-item">
-                        <img src="${getAltArt}" id="extra" class="image-fluid w-50 mx-auto d-block">
-                    </div>
-                    `;
-                    document.getElementById("getAltArt").insertAdjacentHTML("beforeend", cardImageOut);
+                        `
+                        <div class="carousel-item" id="extra">
+                            <img src="${getAltArt}" class="image-fluid w-50 mx-auto d-block">
+                        </div>
+                        `;
+                    console.log("This should only appear 8 times");
+                }
+            } else {
+                for (let k = 0; k < card.card_images.length; k++) {
+                    // clear extra card art anyway if clicked card only has one art
+                    extra.remove();
                 }
             }
 
             // Output Card Information
+            document.getElementById("getAltArt").insertAdjacentHTML("beforeend", cardImageOut);
             document.getElementById("cardInfo").innerHTML = cardInfo;
             // Reset search to clear results when card has been clicked on
             searchedNameOut = ``;
