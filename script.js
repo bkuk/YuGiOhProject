@@ -55,12 +55,14 @@ async function storeImage(cardURL, cardName, i) {
         reader.onload = () => resolve(reader.result);
         reader.readAsDataURL(blob);
     });
-    // console.log(dataURL);
+    console.log(dataURL);
     localStorage.setItem(`${cardName}${i}`, dataURL);
 }
 
 function showCard(clickedID) {
     let cardInfo = ``;
+    let cardImageOut = ``;
+    let getAltArt;
     // output card information by searching for it using for of loop
     for (let card of cardList.data) {
         if (card.id == clickedID) {
@@ -70,21 +72,39 @@ function showCard(clickedID) {
             <h5">${card.type}</h5>
             <p>${card.desc}</p>
             `;
+            // if statement to check if card type is spell or trap
             if (card.type !== "Spell Card" && card.type !== "Trap Card") {
                 cardInfo +=
                 `
                 <p>ATK / ${card.atk}  DEF / ${card.def}</p>
                 `;
             }
-            if (localStorage.getItem(`${card.name}${0}`) != null) {
+            // if statement to check if card image is already stored in localStorage
+            if (localStorage.getItem(`${card.name}${0}`) == null) {
                 // for loop to convert imageURLs to DataURLs and store all of the possible card arts
                 for (let i = 0; i < card.card_images.length; i++) {
                     storeImage(card.card_images[i].image_url, card.name, i);
                 }
+                console.log("This shouldn't appear.");
             }
-            // console.log(card);
+            console.log(card.card_images.length);
             // Output Card Image
-            cardImage.src = localStorage.getItem(`${card.name}${0}`);
+            // document.getElementsById("extra").remove();                         // clear alternate card art HTML elements
+
+            cardImage.src = localStorage.getItem(`${card.name}${0}`);           // start new if new card is clicked on
+            if (card.card_images.length > 0) {
+                for (let j = 1; j < card.card_images.length; j++) {
+                    getAltArt = localStorage.getItem(`${card.name}${j}`);
+                    cardImageOut +=
+                    `
+                    <div class="carousel-item">
+                        <img src="${getAltArt}" id="extra" class="image-fluid w-50 mx-auto d-block">
+                    </div>
+                    `;
+                    document.getElementById("getAltArt").insertAdjacentHTML("beforeend", cardImageOut);
+                }
+            }
+
             // Output Card Information
             document.getElementById("cardInfo").innerHTML = cardInfo;
             // Reset search to clear results when card has been clicked on
