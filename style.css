@@ -1,3 +1,7 @@
+body {
+    background-color: #F5F5F5;
+}
+
 header {
     background-color: #DAA520;
 }
@@ -10,3 +14,41 @@ header {
 #searchedCardList > li:hover {
    background-color: #D3D3D3;
 }
+
+/* First Set */
+/* #borderGrab {
+    border-style: outset;
+}
+
+.first-color { 
+	background: #83580b; 
+}
+	
+.second-color { 
+	background: #d9b650; 
+}
+
+.third-color { 
+	background: #f5dd7b; 
+}
+
+.fourth-color { 
+	background: #fde994; 
+} */
+
+/* Second Set */
+/* .first-color { 
+	background: #957541; 
+}
+	
+.second-color { 
+	background: #be9639; 
+}
+
+.third-color { 
+	background: #fccf5b; 
+}
+
+.fourth-color { 
+	background: #dde9eb; 
+} */
