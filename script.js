@@ -8,7 +8,6 @@ let searchedCardList = document.getElementById("searchedCardList");
 let cardImage = document.getElementById("cardImage")
 let cardList = [];
 
-// console.log(searchBar);
 // EventListner to track key inputs
 searchBar.addEventListener('keyup', (search) => {
     const searchString = search.target.value.toLowerCase();
@@ -55,7 +54,7 @@ async function storeImage(cardURL, cardName, i) {
         reader.onload = () => resolve(reader.result);
         reader.readAsDataURL(blob);
     });
-    console.log(dataURL);
+    // console.log(dataURL);
     localStorage.setItem(`${cardName}${i}`, dataURL);
 }
 
@@ -69,8 +68,9 @@ function showCard(clickedID) {
         if (card.id == clickedID) {
             cardInfo +=
                 `
-            <h2>${card.name}</h2>
-            <h5">${card.type}</h5>
+            <h3>${card.name}</h3>
+            <h6">${card.type}</h6>
+            <h6>${card.race}</h6>
             <p>${card.desc}</p>
             `;
             // if statement to check if card type is spell or trap
@@ -86,11 +86,14 @@ function showCard(clickedID) {
                 for (let i = 0; i < card.card_images.length; i++) {
                     storeImage(card.card_images[i].image_url, card.name, i);
                 }
-                console.log("This shouldn't appear.");
+                // output first card art using URL
+                cardImage.src = card.card_images[0].image_url;
+                console.log("This should appear if a new card is being stored into local storage.");
+            } else {
+                // output first card art using localStorage after it has been stored
+                cardImage.src = localStorage.getItem(`${card.name}${0}`);
             }
-            console.log(card.card_images.length);
-            // Output Card Image
-            cardImage.src = localStorage.getItem(`${card.name}${0}`); // start new if new card is clicked on
+            // check for alternate card art
             if (card.card_images.length > 0) {
                 if (extra) {
                     // clear extra card art if they exist
@@ -106,7 +109,6 @@ function showCard(clickedID) {
                             <img src="${getAltArt}" class="image-fluid w-50 mx-auto d-block">
                         </div>
                         `;
-                    console.log("This should only appear 8 times");
                 }
             } else {
                 for (let k = 0; k < card.card_images.length; k++) {
@@ -116,7 +118,9 @@ function showCard(clickedID) {
             }
 
             // Output Card Information
+            // if more card arts exist, insert string of html
             document.getElementById("getAltArt").insertAdjacentHTML("beforeend", cardImageOut);
+            // text information
             document.getElementById("cardInfo").innerHTML = cardInfo;
             // Reset search to clear results when card has been clicked on
             searchedNameOut = ``;
@@ -126,5 +130,5 @@ function showCard(clickedID) {
     }
 }
 
-// run the function
+// run aync function to retrieve API information
 getAPI(URL);
