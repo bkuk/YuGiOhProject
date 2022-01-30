@@ -58,6 +58,23 @@ async function storeImage(cardURL, cardName, i) {
     localStorage.setItem(`${cardName}${i}`, dataURL);
 }
 
+// function to store all images and output the first
+function getImage(cardImageGallery, cardName) {
+    if (localStorage.getItem(`${cardName}${0}`) == null) {
+        // for loop to convert imageURLs to DataURLs and store all of the possible card arts
+        for (let i = 0; i < cardImageGallery.length; i++) {
+            storeImage(cardImageGallery[i].image_url, cardName, i);
+        }
+        // output first card art using URL
+        cardImage.src = cardImageGallerys[0].image_url;
+        console.log("This should appear if a new card is being stored into local storage.");
+    } else {
+        // output first card art using localStorage after it has been stored
+        cardImage.src = localStorage.getItem(`${cardName}${0}`);
+        console.log("This should appear if a card is being pulled from local storage.");
+    }
+}
+
 function showCard(clickedID) {
     let cardInfo = ``;
     let cardImageOut = ``;
@@ -80,21 +97,12 @@ function showCard(clickedID) {
                 <p>ATK / ${card.atk}  DEF / ${card.def}</p>
                 `;
             }
+            
             // if statement to check if card image is already stored in localStorage
-            if (localStorage.getItem(`${card.name}${0}`) == null) {
-                // for loop to convert imageURLs to DataURLs and store all of the possible card arts
-                for (let i = 0; i < card.card_images.length; i++) {
-                    storeImage(card.card_images[i].image_url, card.name, i);
-                }
-                // output first card art using URL
-                cardImage.src = card.card_images[0].image_url;
-                console.log("This should appear if a new card is being stored into local storage.");
-            } else {
-                // output first card art using localStorage after it has been stored
-                cardImage.src = localStorage.getItem(`${card.name}${0}`);
-            }
+            getImage(card.card_images, card.name);
+            
             // check for alternate card art
-            if (card.card_images.length > 0) {
+            if (card.card_images.length > 1) {
                 if (extra) {
                     // clear extra card art if they exist
                     for (let k = 0; k < card.card_images.length; k++) {
@@ -112,7 +120,7 @@ function showCard(clickedID) {
                 }
             } else {
                 for (let k = 0; k < card.card_images.length; k++) {
-                    // clear extra card art anyway if clicked card only has one art
+                    // clear extra card art if clicked card only has one art
                     extra.remove();
                 }
             }

@@ -9,12 +9,12 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <link rel="stylesheet" href="style.css">
-    <title>Yu-Gi-Oh! API Project</title>
+    <title>Yu-Gi-Oh! Card Library</title>
 </head>
 
 <body>
     <div id="wrapper" class="container-fluid px-3">
-        <header class="my-3 p-5 text-light text-center">
+        <header class="my-3 p-5 text-light text-center rounded">
             <h1>Yu-Gi-Oh! Card Library</h1>
         </header>
         <div class="w-75 mx-auto" id="form">
@@ -22,8 +22,8 @@
                 placeholder="Search Card Name Here">
             <ul class="position-absolute w-75 text-center list-unstyled bg-white" id="searchedCardList"></ul>
         </div>
-        <div class="row w-100 mt-3 position-absolute px-3" style="z-index: -1;" id="infoOut">
-            <div class="col-sm-6 mx-auto mb-5 p-3" style="border-style: outset">
+        <div class="row w-100 mt-3 position-absolute px-3 rounded" style="z-index: -1;" id="infoOut">
+            <div class="col-sm-6 mx-auto mb-5 p-3 bg-light" style="border-style: outset">
                 <div id="carouselNoTouching" class="carousel carousel-dark slide" data-bs-touch="false"
                     data-bs-interval="false">
                     <div id="getAltArt" class="carousel-inner">
@@ -43,7 +43,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-sm-6 mx-auto p-3 h-50" id="cardInfo" style="border-style: outset"></div>
+            <div class="col-sm-6 mx-auto p-3 h-50 bg-light rounded" id="cardInfo" style="border-style: outset"></div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
