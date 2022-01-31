@@ -83,6 +83,8 @@ function showCard(clickedID) {
     // output card information by searching for it using for of loop
     for (let card of cardList.data) {
         if (card.id == clickedID) {
+            console.log(card);
+            console.log(card.type.includes("Link"));
             cardInfo +=
                 `
             <h3>${card.name}</h3>
@@ -90,17 +92,37 @@ function showCard(clickedID) {
             <h6>${card.race}</h6>
             <p>${card.desc}</p>
             `;
-            // if statement to check if card type is spell or trap
-            if (card.type !== "Spell Card" && card.type !== "Trap Card") {
-                cardInfo +=
-                    `
-                <p>ATK / ${card.atk}  DEF / ${card.def}</p>
-                `;
+            // switch to check for card type
+            switch (true) {
+                case (card.type.includes("Pendulum")):
+                    cardInfo +=
+                        `
+                    <p>ATK / ${card.atk}  DEF / ${card.def}</p>
+                    <p>Scales: ${card.scale}</p>
+                    `;
+                    document.getElementById("cardInfo").innerHTML = cardInfo;
+                    break;
+                case (card.type.includes("Link")):
+                    cardInfo +=
+                        `
+                    <p>ATK / ${card.atk}  LINK-${card.link}</p>
+                    <p>Link Arrows: </p>
+                    `;
+                    document.getElementById("cardInfo").innerHTML = cardInfo;
+                    break;
+                case (card.type.includes("Spell") || card.type.includes("Trap")):
+                    document.getElementById("cardInfo").innerHTML = cardInfo;
+                    break;
+                default:
+                    cardInfo +=
+                        `
+                    <p>ATK / ${card.atk}  DEF / ${card.def}</p>
+                    `;
+                    document.getElementById("cardInfo").innerHTML = cardInfo;
             }
-            
-            // if statement to check if card image is already stored in localStorage
+            // function to check if card image is already stored in localStorage
+            // then output first card art
             getImage(card.card_images, card.name);
-            
             // check for alternate card art
             if (card.card_images.length > 1) {
                 if (extra) {
@@ -119,17 +141,17 @@ function showCard(clickedID) {
                         `;
                 }
             } else {
-                for (let k = 0; k < card.card_images.length; k++) {
-                    // clear extra card art if clicked card only has one art
-                    extra.remove();
+                if (extra) {
+                    for (let k = 0; k < card.card_images.length; k++) {
+                        // clear extra card art if clicked card only has one art
+                        extra.remove();
+                    }
                 }
-            }
 
-            // Output Card Information
+            }
+            // Output Card alternate card art
             // if more card arts exist, insert string of html
             document.getElementById("getAltArt").insertAdjacentHTML("beforeend", cardImageOut);
-            // text information
-            document.getElementById("cardInfo").innerHTML = cardInfo;
             // Reset search to clear results when card has been clicked on
             searchedNameOut = ``;
             searchedCardList.style.height = "0px";
