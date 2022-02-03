@@ -41,7 +41,6 @@ searchBar.addEventListener('keyup', (search) => {
 async function getAPI(URL) {
     let res = await fetch(URL);
     cardList = await res.json();
-    // console.log(cardList);
     // run showCard function with ID to output default card on start
     showCard("89943723");
 }
@@ -55,7 +54,7 @@ async function storeImage(cardURL, cardName, i) {
         reader.onload = () => resolve(reader.result);
         reader.readAsDataURL(blob);
     });
-    // console.log(dataURL);
+    // if local storage is full, clear local storage
     try {
         localStorage.setItem(`${cardName}${i}`, dataURL);
     } catch (e) {
@@ -68,7 +67,6 @@ async function storeImage(cardURL, cardName, i) {
             localStorage.setItem(`${cardName}${i}`, dataURL);
         }
     }
-    // localStorage.setItem(`${cardName}${i}`, dataURL);
 }
 
 // function to store all images and output the first
@@ -80,11 +78,9 @@ function getImage(cardImageGallery, cardName) {
         }
         // output first card art using URL
         cardImage.src = cardImageGallery[0].image_url;
-        // console.log("This should appear if a new card is being stored into local storage.");
     } else {
         // output first card art using localStorage after it has been stored
         cardImage.src = localStorage.getItem(`${cardName}${0}`);
-        // console.log("This should appear if a card is being pulled from local storage.");
     }
 }
 
@@ -139,8 +135,6 @@ function showCard(clickedID) {
                 for (let k = 1; k < altCardLen; k++) {
                     extraPick = artContainer.querySelectorAll("div");
                     extraPick[1].remove();
-                    console.log(extra);
-                    console.log("Clear alternate card art and then load new alternate art.");
                 }
             }
             if (card.card_images.length > 1) {
