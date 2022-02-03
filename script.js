@@ -5,7 +5,8 @@
 const URL = "cardinfo.php";
 const searchBar = document.getElementById('searchBar');
 let searchedCardList = document.getElementById("searchedCardList");
-let cardImage = document.getElementById("cardImage")
+let artContainer = document.getElementById("getAltArt");
+let cardImage = document.getElementById("cardImage");
 let cardList = [];
 
 // EventListner to track key inputs
@@ -30,7 +31,7 @@ searchBar.addEventListener('keyup', (search) => {
     // clear search results if search is empty
     if (searchString.length == 0) {
         searchedNameOut = ``;
-        searchedCardList.style.height = "0px"
+        searchedCardList.style.height = "0px";
     }
     // Output the searched name results
     searchedCardList.innerHTML = searchedNameOut;
@@ -55,7 +56,19 @@ async function storeImage(cardURL, cardName, i) {
         reader.readAsDataURL(blob);
     });
     // console.log(dataURL);
-    localStorage.setItem(`${cardName}${i}`, dataURL);
+    try {
+        localStorage.setItem(`${cardName}${i}`, dataURL);
+    } catch (e) {
+        // if local storage is full
+        // if errors match
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Local Storage is full!');
+            // clear all of the local storage
+            localStorage.clear();
+            localStorage.setItem(`${cardName}${i}`, dataURL);
+        }
+    }
+    // localStorage.setItem(`${cardName}${i}`, dataURL);
 }
 
 // function to store all images and output the first
@@ -66,12 +79,12 @@ function getImage(cardImageGallery, cardName) {
             storeImage(cardImageGallery[i].image_url, cardName, i);
         }
         // output first card art using URL
-        cardImage.src = cardImageGallerys[0].image_url;
-        console.log("This should appear if a new card is being stored into local storage.");
+        cardImage.src = cardImageGallery[0].image_url;
+        // console.log("This should appear if a new card is being stored into local storage.");
     } else {
         // output first card art using localStorage after it has been stored
         cardImage.src = localStorage.getItem(`${cardName}${0}`);
-        console.log("This should appear if a card is being pulled from local storage.");
+        // console.log("This should appear if a card is being pulled from local storage.");
     }
 }
 
@@ -79,12 +92,11 @@ function showCard(clickedID) {
     let cardInfo = ``;
     let cardImageOut = ``;
     let extra = document.getElementById("extra");
-    let getAltArt;
+    let altCardLen = artContainer.children.length;
+    let extraPick, getAltArt;
     // output card information by searching for it using for of loop
     for (let card of cardList.data) {
         if (card.id == clickedID) {
-            console.log(card);
-            console.log(card.type.includes("Link"));
             cardInfo +=
                 `
             <h3>${card.name}</h3>
@@ -92,12 +104,12 @@ function showCard(clickedID) {
             <h6>${card.race}</h6>
             <p>${card.desc}</p>
             `;
-            // switch to check for card type
+            // switch to check for card type output
             switch (true) {
                 case (card.type.includes("Pendulum")):
                     cardInfo +=
                         `
-                    <p>ATK / ${card.atk}  DEF / ${card.def}</p>
+                    <p>ATK / ${card.atk}   DEF / ${card.def}</p>
                     <p>Scales: ${card.scale}</p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
@@ -105,7 +117,7 @@ function showCard(clickedID) {
                 case (card.type.includes("Link")):
                     cardInfo +=
                         `
-                    <p>ATK / ${card.atk}  LINK-${card.link}</p>
+                    <p>ATK / ${card.atk}   LINK-${card.linkval}</p>
                     <p>Link Arrows: </p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
@@ -116,21 +128,22 @@ function showCard(clickedID) {
                 default:
                     cardInfo +=
                         `
-                    <p>ATK / ${card.atk}  DEF / ${card.def}</p>
+                    <p>ATK / ${card.atk}   DEF / ${card.def}</p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
             }
-            // function to check if card image is already stored in localStorage
-            // then output first card art
+            // function to check if card image is already stored in localStorage and output first image
             getImage(card.card_images, card.name);
             // check for alternate card art
-            if (card.card_images.length > 1) {
-                if (extra) {
-                    // clear extra card art if they exist
-                    for (let k = 0; k < card.card_images.length; k++) {
-                        extra.remove();
-                    }
+            if (extra) {
+                for (let k = 1; k < altCardLen; k++) {
+                    extraPick = artContainer.querySelectorAll("div");
+                    extraPick[1].remove();
+                    console.log(extra);
+                    console.log("Clear alternate card art and then load new alternate art.");
                 }
+            }
+            if (card.card_images.length > 1) {
                 for (let j = 1; j < card.card_images.length; j++) {
                     getAltArt = localStorage.getItem(`${card.name}${j}`);
                     cardImageOut +=
@@ -140,18 +153,10 @@ function showCard(clickedID) {
                         </div>
                         `;
                 }
-            } else {
-                if (extra) {
-                    for (let k = 0; k < card.card_images.length; k++) {
-                        // clear extra card art if clicked card only has one art
-                        extra.remove();
-                    }
-                }
-
             }
             // Output Card alternate card art
             // if more card arts exist, insert string of html
-            document.getElementById("getAltArt").insertAdjacentHTML("beforeend", cardImageOut);
+            artContainer.insertAdjacentHTML("beforeend", cardImageOut);
             // Reset search to clear results when card has been clicked on
             searchedNameOut = ``;
             searchedCardList.style.height = "0px";
