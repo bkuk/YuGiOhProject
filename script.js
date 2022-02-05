@@ -71,6 +71,12 @@ async function storeImage(cardURL, cardName, i) {
 
 // function to store all images and output the first
 function getImage(cardImageGallery, cardName) {
+    let cardImageOut = ``
+    let extra = document.getElementById("extra");
+    let altCardLen = artContainer.children.length;
+    let extraPick, getAltArt;
+    // if the image is not already in localStorage
+    // first time outputting will output from GoogleCloud URL
     if (localStorage.getItem(`${cardName}${0}`) == null) {
         // for loop to convert imageURLs to DataURLs and store all of the possible card arts
         for (let i = 0; i < cardImageGallery.length; i++) {
@@ -78,21 +84,60 @@ function getImage(cardImageGallery, cardName) {
         }
         // output first card art using URL
         cardImage.src = cardImageGallery[0].image_url;
+        // output alternate art from GoogleCloud URL if they exists
+        // first clear alt art if it exists
+        if (extra) {
+            for (let k = 2; k <= altCardLen; k++) {
+                extraPick = artContainer.querySelectorAll("div");
+                extraPick[1].remove();
+            }
+        }
+        // create HTML for alt art if it exists
+        if (cardImageGallery.length > 1) {
+            for (let j = 1; j < cardImageGallery.length; j++) {
+                cardImageOut +=
+                    `
+                    <div class="carousel-item" id="extra">
+                        <img src="${cardImageGallery[j].image_url}" class="image-fluid w-50 mx-auto d-block">
+                    </div>
+                    `;
+            }
+        }
+        artContainer.insertAdjacentHTML("beforeend", cardImageOut);
     } else {
+        // else: the card art is already stored  
         // output first card art using localStorage after it has been stored
         cardImage.src = localStorage.getItem(`${cardName}${0}`);
+        // clear alt art if they exists
+        if (extra) {
+            for (let k = 2; k <= altCardLen; k++) {
+                extraPick = artContainer.querySelectorAll("div");
+                extraPick[1].remove();
+            }
+        }
+        // create HTML if alt art exists
+        if (cardImageGallery.length > 1) {
+            for (let j = 1; j < cardImageGallery.length; j++) {
+                getAltArt = localStorage.getItem(`${cardName}${j}`);
+                console.log(getAltArt);
+                cardImageOut +=
+                    `
+                    <div class="carousel-item" id="extra">
+                        <img src="${getAltArt}" class="image-fluid w-50 mx-auto d-block">
+                    </div>
+                    `;
+            }
+        }
+        artContainer.insertAdjacentHTML("beforeend", cardImageOut);
     }
 }
 
 function showCard(clickedID) {
     let cardInfo = ``;
-    let cardImageOut = ``;
-    let extra = document.getElementById("extra");
-    let altCardLen = artContainer.children.length;
-    let extraPick, getAltArt;
     // output card information by searching for it using for of loop
     for (let card of cardList.data) {
         if (card.id == clickedID) {
+            // create HTML to output using clicked card information
             cardInfo +=
                 `
             <h3>${card.name}</h3>
@@ -128,30 +173,9 @@ function showCard(clickedID) {
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
             }
-            // function to check if card image is already stored in localStorage and output first image
+            // function to check if card image is already stored in localStorage and output card images
             getImage(card.card_images, card.name);
-            // check for alternate card art
-            if (extra) {
-                for (let k = 1; k < altCardLen; k++) {
-                    extraPick = artContainer.querySelectorAll("div");
-                    extraPick[1].remove();
-                }
-            }
-            if (card.card_images.length > 1) {
-                for (let j = 1; j < card.card_images.length; j++) {
-                    getAltArt = localStorage.getItem(`${card.name}${j}`);
-                    cardImageOut +=
-                        `
-                        <div class="carousel-item" id="extra">
-                            <img src="${getAltArt}" class="image-fluid w-50 mx-auto d-block">
-                        </div>
-                        `;
-                }
-            }
-            // Output Card alternate card art
-            // if more card arts exist, insert string of html
-            artContainer.insertAdjacentHTML("beforeend", cardImageOut);
-            // Reset search to clear results when card has been clicked on
+            // reset search bar and remove search results
             searchedNameOut = ``;
             searchedCardList.style.height = "0px";
             break;
