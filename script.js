@@ -42,7 +42,7 @@ async function getAPI(URL) {
     let res = await fetch(URL);
     cardList = await res.json();
     // run showCard function with ID to output default card on start
-    showCard("89943723");
+    showCard("19324993");
 }
 
 // async function to fetch image from Google Cloud URL and convert/store as DataURL
@@ -91,6 +91,7 @@ function getImage(cardImageGallery, cardName) {
                 extraPick = artContainer.querySelectorAll("div");
                 extraPick[1].remove();
             }
+            extraPick[0].className = "carousel-item active";
         }
         // create HTML for alt art if it exists
         if (cardImageGallery.length > 1) {
@@ -114,12 +115,12 @@ function getImage(cardImageGallery, cardName) {
                 extraPick = artContainer.querySelectorAll("div");
                 extraPick[1].remove();
             }
+            extraPick[0].className = "carousel-item active";
         }
         // create HTML if alt art exists
         if (cardImageGallery.length > 1) {
             for (let j = 1; j < cardImageGallery.length; j++) {
                 getAltArt = localStorage.getItem(`${cardName}${j}`);
-                console.log(getAltArt);
                 cardImageOut +=
                     `
                     <div class="carousel-item" id="extra">
@@ -133,6 +134,7 @@ function getImage(cardImageGallery, cardName) {
 }
 
 function showCard(clickedID) {
+    console.log(clickedID);
     let cardInfo = ``;
     // output card information by searching for it using for of loop
     for (let card of cardList.data) {
@@ -144,13 +146,14 @@ function showCard(clickedID) {
             <h6">${card.type}</h6>
             <h6>${card.race}</h6>
             <p>${card.desc}</p>
+            <hr>
             `;
             // switch to check for card type output
             switch (true) {
                 case (card.type.includes("Pendulum")):
                     cardInfo +=
                         `
-                    <p>ATK / ${card.atk}   DEF / ${card.def}</p>
+                    <p><b>ATK</b> / ${card.atk}   DEF / <b>${card.def}</b></p>
                     <p>Scales: ${card.scale}</p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
@@ -158,10 +161,15 @@ function showCard(clickedID) {
                 case (card.type.includes("Link")):
                     cardInfo +=
                         `
-                    <p>ATK / ${card.atk}   LINK-${card.linkval}</p>
-                    <p>Link Arrows: </p>
+                    <p><b>ATK</b> / ${card.atk}   <b>LINK</b>-${card.linkval}</p>
+                    <p><b>Link Arrows</b>: 
                     `;
+                    for (let d = 0; d < card.linkmarkers.length; d++) {
+                        cardInfo += `${card.linkmarkers[d]}	&nbsp;&nbsp;`;
+                    }
+                    cardInfo += `</p>`;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
+                    console.log(card.linkmarkers[0]);
                     break;
                 case (card.type.includes("Spell") || card.type.includes("Trap")):
                     document.getElementById("cardInfo").innerHTML = cardInfo;
@@ -169,11 +177,11 @@ function showCard(clickedID) {
                 default:
                     cardInfo +=
                         `
-                    <p>ATK / ${card.atk}   DEF / ${card.def}</p>
+                    <p><b>ATK</b> / ${card.atk}   DEF / <b>${card.def}</b></p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
             }
-            // function to check if card image is already stored in localStorage and output card images
+            // run getImage to output/store images
             getImage(card.card_images, card.name);
             // reset search bar and remove search results
             searchedNameOut = ``;
