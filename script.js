@@ -131,63 +131,57 @@ function getImage(cardImageGallery, cardName) {
 }
 
 function showCard(clickedID) {
-    console.log(clickedID);
     let cardInfo = ``;
-    // output card information by searching for it using for of loop
-    for (let card of cardList.data) {
-        if (card.id == clickedID) {
-            // create HTML to output using clicked card information
-            console.log(card);
+    // output card information by searching for it using .find function
+    let card = cardList.data.find(card => card.id == clickedID);
+    // create HTML to output using clicked card information
+    cardInfo +=
+        `
+        <h3>${card.name}</h3>
+        <h6">${card.type}</h6>
+        <h6>${card.race}</h6>
+        <hr>
+        <p>${card.desc}</p>
+        <hr>
+        `;
+    // switch to check for card type output
+    switch (true) {
+        case (card.type.includes("Pendulum")):
             cardInfo +=
                 `
-            <h3>${card.name}</h3>
-            <h6">${card.type}</h6>
-            <h6>${card.race}</h6>
-            <hr>
-            <p>${card.desc}</p>
-            <hr>
-            `;
-            // switch to check for card type output
-            switch (true) {
-                case (card.type.includes("Pendulum")):
-                    cardInfo +=
-                        `
-                    <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
-                    <p>Scales: ${card.scale}</p>
-                    `;
-                    document.getElementById("cardInfo").innerHTML = cardInfo;
-                    break;
-                case (card.type.includes("Link")):
-                    cardInfo +=
-                        `
-                    <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; <b>LINK</b>-${card.linkval}</p>
-                    <p><b>Link Arrows</b>: 
-                    `;
-                    for (let d = 0; d < card.linkmarkers.length; d++) {
-                        cardInfo += `${card.linkmarkers[d]}	&nbsp;&nbsp;`;
-                    }
-                    cardInfo += `</p>`;
-                    document.getElementById("cardInfo").innerHTML = cardInfo;
-                    console.log(card.linkmarkers[0]);
-                    break;
-                case (card.type.includes("Spell") || card.type.includes("Trap")):
-                    document.getElementById("cardInfo").innerHTML = cardInfo;
-                    break;
-                default:
-                    cardInfo +=
-                        `
-                    <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
-                    `;
-                    document.getElementById("cardInfo").innerHTML = cardInfo;
-            }
-            // run getImage to output/store images
-            getImage(card.card_images, card.name);
-            // reset search bar and remove search results
-            searchedNameOut = ``;
-            searchedCardList.style.height = "0px";
+                <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
+                <p>Scales: ${card.scale}</p>
+                `;
+            document.getElementById("cardInfo").innerHTML = cardInfo;
             break;
-        }
+        case (card.type.includes("Link")):
+            cardInfo +=
+                `
+                <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; <b>LINK</b>-${card.linkval}</p>
+                <p><b>Link Arrows</b>: 
+                `;
+            for (let d = 0; d < card.linkmarkers.length; d++) {
+                cardInfo += `${card.linkmarkers[d]}	&nbsp;&nbsp;`;
+            }
+            cardInfo += `</p>`;
+            document.getElementById("cardInfo").innerHTML = cardInfo;
+            console.log(card.linkmarkers[0]);
+            break;
+        case (card.type.includes("Spell") || card.type.includes("Trap")):
+            document.getElementById("cardInfo").innerHTML = cardInfo;
+            break;
+        default:
+            cardInfo +=
+                `
+                <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
+                `;
+            document.getElementById("cardInfo").innerHTML = cardInfo;
     }
+    // run getImage to output/store images
+    getImage(card.card_images, card.name);
+    // reset search bar and remove search results
+    searchedNameOut = ``;
+    searchedCardList.style.height = "0px";
 }
 
 // run aync function to retrieve API information
