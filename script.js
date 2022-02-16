@@ -42,11 +42,10 @@ async function getAPI(URL) {
     let res = await fetch(URL);
     cardList = await res.json();
     // run showCard function with ID to output default card on start
-    showCard("19324993");
+    showCard("89943723");
 }
 
 // async function to fetch image from Google Cloud URL and convert/store as DataURL
-// since localStorage only allows the storage of strings
 async function storeImage(cardURL, cardName, i) {
     let blob = await fetch(cardURL).then(r => r.blob());
     let dataURL = await new Promise(resolve => {
@@ -58,8 +57,7 @@ async function storeImage(cardURL, cardName, i) {
     try {
         localStorage.setItem(`${cardName}${i}`, dataURL);
     } catch (e) {
-        // if local storage is full
-        // if errors match
+        // if local storage is full/if errors match
         if (e == QUOTA_EXCEEDED_ERR) {
             alert('Local Storage is full!');
             // clear all of the local storage
@@ -75,8 +73,7 @@ function getImage(cardImageGallery, cardName) {
     let extra = document.getElementById("extra");
     let altCardLen = artContainer.children.length;
     let extraPick, getAltArt;
-    // if the image is not already in localStorage
-    // first time outputting will output from GoogleCloud URL
+    // if the image is not already in localStorage, first time outputting will output from GoogleCloud URL
     if (localStorage.getItem(`${cardName}${0}`) == null) {
         // for loop to convert imageURLs to DataURLs and store all of the possible card arts
         for (let i = 0; i < cardImageGallery.length; i++) {
@@ -85,8 +82,8 @@ function getImage(cardImageGallery, cardName) {
         // output first card art using URL
         cardImage.src = cardImageGallery[0].image_url;
         // output alternate art from GoogleCloud URL if they exists
-        // first clear alt art if it exists
         if (extra) {
+            // first clear alt art if it exists
             for (let k = 2; k <= altCardLen; k++) {
                 extraPick = artContainer.querySelectorAll("div");
                 extraPick[1].remove();
@@ -106,7 +103,7 @@ function getImage(cardImageGallery, cardName) {
         }
         artContainer.insertAdjacentHTML("beforeend", cardImageOut);
     } else {
-        // else: the card art is already stored  
+        // else: if card art is already stored  
         // output first card art using localStorage after it has been stored
         cardImage.src = localStorage.getItem(`${cardName}${0}`);
         // clear alt art if they exists
@@ -140,11 +137,13 @@ function showCard(clickedID) {
     for (let card of cardList.data) {
         if (card.id == clickedID) {
             // create HTML to output using clicked card information
+            console.log(card);
             cardInfo +=
                 `
             <h3>${card.name}</h3>
             <h6">${card.type}</h6>
             <h6>${card.race}</h6>
+            <hr>
             <p>${card.desc}</p>
             <hr>
             `;
@@ -153,7 +152,7 @@ function showCard(clickedID) {
                 case (card.type.includes("Pendulum")):
                     cardInfo +=
                         `
-                    <p><b>ATK</b> / ${card.atk}   DEF / <b>${card.def}</b></p>
+                    <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
                     <p>Scales: ${card.scale}</p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
@@ -161,7 +160,7 @@ function showCard(clickedID) {
                 case (card.type.includes("Link")):
                     cardInfo +=
                         `
-                    <p><b>ATK</b> / ${card.atk}   <b>LINK</b>-${card.linkval}</p>
+                    <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; <b>LINK</b>-${card.linkval}</p>
                     <p><b>Link Arrows</b>: 
                     `;
                     for (let d = 0; d < card.linkmarkers.length; d++) {
@@ -177,7 +176,7 @@ function showCard(clickedID) {
                 default:
                     cardInfo +=
                         `
-                    <p><b>ATK</b> / ${card.atk}   DEF / <b>${card.def}</b></p>
+                    <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
                     `;
                     document.getElementById("cardInfo").innerHTML = cardInfo;
             }
