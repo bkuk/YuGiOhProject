@@ -20,7 +20,8 @@ searchBar.addEventListener('keyup', (search) => {
             `
         <li id="${filteredNames[i].id}" onClick="showCard(this.id)">${filteredNames[i].name}</li>
         `;
-        if (i > 30) {
+        // limit search results to 15 search results
+        if (i > 15) {
             break;
         }
     }
@@ -132,8 +133,8 @@ function getImage(cardImageGallery, cardName) {
 
 function showCard(clickedID) {
     let cardInfo = ``;
-    // output card information by searching for it using .find function
     let card = cardList.data.find(card => card.id == clickedID);
+    // output card information by searching for it using .find function
     // create HTML to output using clicked card information
     cardInfo +=
         `
@@ -165,7 +166,6 @@ function showCard(clickedID) {
             }
             cardInfo += `</p>`;
             document.getElementById("cardInfo").innerHTML = cardInfo;
-            console.log(card.linkmarkers[0]);
             break;
         case (card.type.includes("Spell") || card.type.includes("Trap")):
             document.getElementById("cardInfo").innerHTML = cardInfo;

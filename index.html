@@ -17,15 +17,18 @@
         <header class="my-3 p-5 text-light text-center rounded">
             <h1>Yu-Gi-Oh! Card Library</h1>
         </header>
+        <!-- Search Bar -->
         <div class="w-75 mx-auto" id="form">
             <input type="text" name="searchBar" id="searchBar" class="form-control form-control-lg text-center"
                 placeholder="Search Card Name Here">
             <ul class="position-absolute w-75 text-center list-unstyled bg-white" id="searchedCardList"></ul>
         </div>
+        <!-- Start of Card Information -->
         <div class="row w-100 mt-3 position-absolute px-3 rounded" style="z-index: -1;" id="infoOut">
             <div class="col-sm-6 mx-auto mb-5 p-3 bg-light" style="border-style: outset">
                 <div id="carouselNoTouching" class="carousel carousel-dark slide" data-bs-touch="false"
                     data-bs-interval="false">
+                    <!-- Card Art Container -->
                     <div id="getAltArt" class="carousel-inner">
                         <div class="carousel-item active">
                             <img id="cardImage" class="image-fluid w-50 mx-auto d-block">
@@ -43,6 +46,7 @@
                     </button>
                 </div>
             </div>
+            <!-- Card Information -->
             <div class="col-sm-6 mx-auto p-3 h-50 bg-light rounded" id="cardInfo" style="border-style: outset"></div>
         </div>
     </div>
