@@ -60,8 +60,9 @@ async function storeImage(cardURL, cardName, i) {
         localStorage.setItem(`${cardName}${i}`, dataURL);
     } catch (e) {
         // if local storage is full/if errors match
-        if (e == QUOTA_EXCEEDED_ERR) {
-            alert('Local Storage is full!');
+        console.log(e);
+        if (e) {
+            console.log("Local Storage is full! Clearing Local Storage.");
             // clear all of the local storage
             localStorage.clear();
             localStorage.setItem(`${cardName}${i}`, dataURL);
