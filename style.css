@@ -1,10 +1,9 @@
 body {
-    background-color: #F5F5F5;
-	/* background-color: #fde994; */
+    background-color: #999DA8;
 }
 
 header {
-	background-color: #be9639;
+    background-color: #3A3F52;
 }
 
 #searchedCardList > li {
