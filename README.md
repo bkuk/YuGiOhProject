@@ -9,7 +9,9 @@ Created With:
 
 ## Preview
 Alternate Card Art Demonstration:
+
 ![Alternate Art Demonstration](images/AltArtGif.gif)
 
 Card Search Demonstration:
+
 ![Card Search Demonstration](images/CardSearchGif.gif)

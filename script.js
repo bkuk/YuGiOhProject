@@ -175,7 +175,7 @@ function showCard(clickedID) {
         default:
             cardInfo +=
                 `
-                <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; DEF / <b>${card.def}</b></p>
+                <p><b>ATK</b> / ${card.atk} &nbsp;&nbsp; <b>DEF</b> / ${card.def}</p>
                 `;
             document.getElementById("cardInfo").innerHTML = cardInfo;
     }
