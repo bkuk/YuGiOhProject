@@ -8,4 +8,8 @@ Created With:
 - Fetch Endpoint: Yu-Gi-Oh! API by [YGOPRODeck](https://db.ygoprodeck.com/api-guide/)
 
 ## Preview
-(GIF DEMONSTRATION)
+Alternate Card Art Demonstration:
+![Alternate Art Demonstration](AltArt.gif)
+
+Card Search Demonstration:
+![Card Search Demonstration](CardSearchGif.gif)
