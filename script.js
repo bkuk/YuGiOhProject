@@ -22,7 +22,7 @@ searchBar.addEventListener('keyup', (search) => {
         <li id="${filteredNames[i].id}" onClick="showCard(this.id)">${filteredNames[i].name}</li>
         `;
         // limit search results to 15 search results
-        if (i > 15) {
+        if (i > 10) {
             break;
         }
     }
