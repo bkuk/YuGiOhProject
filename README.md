@@ -7,10 +7,10 @@ Created With:
 - Bootstrap 5 Framework
 - Fetch Endpoint: Yu-Gi-Oh! API by [YGOPRODeck](https://db.ygoprodeck.com/api-guide/)
 
-##Installation
+## Installation
 
 To Test Yourself:
-- Click this [CodeSandbox Link]().
+- Click this [CodeSandbox Link](https://codesandbox.io/s/yugiohproject-p17bif) to try it yourself!
 - Or download repository contents and run in a local development server.
 
 ## Preview
