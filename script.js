@@ -2,7 +2,7 @@
 //          Endpoint: https://db.ygoprodeck.com/api/v7/cardinfo.php
 
 // set URL API endpoint constant
-// URL endpoint downloaded to test locally
+// download API contents to download cardinfo.php for testing
 const URL = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
 const searchBar = document.getElementById('searchBar');
 let searchedCardList = document.getElementById("searchedCardList");

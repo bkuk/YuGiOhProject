@@ -10,7 +10,7 @@ This is a single page application that functions as a Yu-Gi-Oh! card library. Ju
 ## Testing/Installation
 
 :running: To Test Yourself:
-- Click this :link:[CodeSandbox Link](https://codesandbox.io/s/yugiohproject-p17bif) to try it yourself!
+- Click this :link:[Live Github Pages Link](https://bkuk.github.io/YuGiOhProject/) to try it yourself!
 - Or download repository contents and run in a local development server.
 
 ## Preview
